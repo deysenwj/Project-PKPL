@@ -11,6 +11,11 @@ if ($pass !== $confirm) {
     exit;
 }
 
+if (!preg_match('/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/', $pass)) {
+    header("Location: register.php?error=" . urlencode("Password harus mengandung huruf dan angka, minimal 6 karakter!"));
+    exit;
+}
+
 $cek = mysqli_query($conn, "SELECT * FROM users WHERE username='$username' OR email='$email'");
 if (mysqli_num_rows($cek) > 0) {
     header("Location: register.php?error=" . urlencode("Username atau Email sudah terdaftar!"));
@@ -22,6 +27,6 @@ $query = "INSERT INTO users (username, email, password) VALUES ('$username', '$e
 if (mysqli_query($conn, $query)) {
     header("Location: register.php?success=" . urlencode("Register berhasil! Silakan login."));
 } else {
-    header("Location: register.php?error=" . urlencode("Terjadi kesalahan: " . mysqli_error($conn)));
+    header("Location: register.php?error=" . urlencode("Terjadi kesalahan saat menyimpan data."));
 }
 ?>

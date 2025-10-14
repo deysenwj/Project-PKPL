@@ -14,7 +14,7 @@ if (mysqli_num_rows($result) === 1) {
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['role'] = $user['role'];
-        header("Location: ../index.html");
+        header("Location: login.php?success=" . urlencode("Login berhasil!"));
         exit;
     } else {
         header("Location: login.php?error=" . urlencode("Password salah!"));
